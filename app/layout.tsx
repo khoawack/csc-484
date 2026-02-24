@@ -11,6 +11,12 @@ export const metadata: Metadata = {
   },
 };
 
+import { Poppins } from "next/font/google";
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
+});
 
 export default function RootLayout({
   children,
@@ -24,7 +30,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/chopper.png" />
         <meta name="theme-color" content="#ffffff" />
       </head>
-      <body className="bg-gray-100">
+      <body className={`${poppins.className} bg-gray-100`}>
         <div className="mx-auto max-w-[430px] min-h-screen bg-white shadow-lg">
           {children}
         </div>
