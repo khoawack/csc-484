@@ -1,32 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import { useAppFlow } from "./context/AppFlowContext";
 import WelcomeScreen from "./components/WelcomeScreen";
 import ExperienceSelectScreen from "./components/ExperienceSelectScreen";
 import MainMenuScreen from "./components/MainMenuScreen";
+import CheckInScreen from "./components/CheckInScreen";
+import PlayerIntroScreen from "./components/PlayerIntroScreen";
+import TradingScreen from "./components/TradingScreen"
 
 export default function Home() {
-  const [step, setStep] = useState(0);
-  const [experience, setExperience] = useState<"new" | "returning" | null>(
-    null
-  );
+  const { screen } = useAppFlow();
 
-  if (step === 0) return <WelcomeScreen key="welcome" onStart={() => setStep(1)} />;
-
-  if (step === 1)
-    return (
-      <ExperienceSelectScreen
-        key="experience"
-        onBack={() => setStep(0)}
-        onNext={(value) => {
-          setExperience(value);
-          setStep(2);
-        }}
-      />
-    );
-
-  if (step === 2)
-    return <MainMenuScreen key="menu" experience={experience} onBack={() => setStep(1)} />;
-
-  return null;
+  switch (screen) {
+    case "welcome":
+      return <WelcomeScreen />;
+    case "experience":
+      return <ExperienceSelectScreen />;
+    case "mainMenu":
+      return <MainMenuScreen />;
+    case "checkIn":
+      return <CheckInScreen />;
+    case "playerIntro":
+      return <PlayerIntroScreen />;
+    case "trading":
+      return <TradingScreen />
+    default:
+      return null;
+  }
 }

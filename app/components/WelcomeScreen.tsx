@@ -1,10 +1,11 @@
+"use client";
+
 import Image from "next/image";
+import { useAppFlow } from "../context/AppFlowContext";
 
-type Props = {
-  onStart?: () => void;
-};
+export default function WelcomeScreen() {
+  const { navigate } = useAppFlow();
 
-export default function WelcomeScreen({ onStart }: Props) {
   return (
     <div className="text-black px-10 pt-8 flex flex-col min-h-screen screen-transition">
       <div className="pb-4">
@@ -40,7 +41,7 @@ export default function WelcomeScreen({ onStart }: Props) {
         </p>
 
         <button
-          onClick={onStart}
+          onClick={() => navigate("experience")}
           className="w-full text-base bg-gray-300 hover:bg-gray-400 transition-all duration-200 active:scale-[0.98] py-3 rounded-xl text-center mx-auto"
         >
           Start

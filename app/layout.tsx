@@ -1,5 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import { AppFlowProvider } from "./context/AppFlowContext";
 
 export const metadata: Metadata = {
   title: "CSC484",
@@ -30,10 +31,12 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/chopper.png" />
         <meta name="theme-color" content="#ffffff" />
       </head>
-      <body className={`${poppins.className} bg-gray-100`}>
-        <div className="mx-auto max-w-[430px] min-h-screen bg-white shadow-lg">
-          {children}
-        </div>
+      <body className={`${poppins.className} bg-[#F3F4F6]`}>
+        <AppFlowProvider>
+          <div className="mx-auto max-w-[430px] min-h-screen bg-white shadow-lg">
+            {children}
+          </div>
+        </AppFlowProvider>
       </body>
     </html>
   );

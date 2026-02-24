@@ -2,16 +2,14 @@
 
 import { useState } from "react";
 import Navbar from "./Navbar";
+import { useAppFlow } from "../context/AppFlowContext";
 
 type ExperienceType = "new" | "returning";
 
-type Props = {
-  onNext?: (value: ExperienceType) => void;
-  onBack?: () => void;
-};
-
-export default function ExperienceSelectScreen({ onNext, onBack }: Props) {
+export default function ExperienceSelectScreen() {
   const [selected, setSelected] = useState<ExperienceType | null>(null);
+
+  const { setExperience, unlock, navigate } = useAppFlow();
 
   const optionStyle = (value: ExperienceType) =>
     `w-full border rounded-xl py-4 px-4 text-left transition-all duration-200 ease-in-out active:scale-[0.98] ${
@@ -22,7 +20,7 @@ export default function ExperienceSelectScreen({ onNext, onBack }: Props) {
 
   return (
     <div className="min-h-screen bg-bg-main text-black flex flex-col screen-transition">
-      <Navbar onBack={onBack} />
+      <Navbar />
 
       <div className="px-8 pt-6">
         <h2 className="text-2xl font-semibold leading-snug mb-10 text-black">
@@ -47,7 +45,11 @@ export default function ExperienceSelectScreen({ onNext, onBack }: Props) {
 
         <button
           disabled={!selected}
-          onClick={() => selected && onNext?.(selected)}
+          onClick={() => {
+            if (!selected) return;
+            setExperience(selected);
+            navigate("mainMenu");
+          }}
           className={`w-full mt-12 py-3 rounded-xl transition-all duration-200 ${
             selected
               ? "bg-primary text-white hover:opacity-90 active:scale-[0.98]"

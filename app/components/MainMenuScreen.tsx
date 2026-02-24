@@ -2,21 +2,15 @@
 
 import { CheckSquare, User, ClipboardList } from "lucide-react";
 import Navbar from "./Navbar";
+import { useAppFlow } from "../context/AppFlowContext";
 
-type Props = {
-  experience: "new" | "returning" | null;
-  unlockedStep?: number;
-  onBack?: () => void;
-};
+export default function MainMenuScreen() {
+  const { experience, menuStep, unlock, navigate } = useAppFlow();
 
-export default function MainMenuScreen({
-  experience,
-  unlockedStep = 0,
-  onBack,
-}: Props) {
   const isReturning = experience === "returning";
 
-  const cardBase = "w-full rounded-2xl p-5 flex items-center gap-4 transition-all duration-200 active:scale-[0.98]";
+  const cardBase =
+    "w-full rounded-2xl p-5 flex items-center gap-4 transition-all duration-200 active:scale-[0.98]";
 
   const enabledCard = "bg-gray-200 hover:bg-gray-300 cursor-pointer";
 
@@ -24,7 +18,7 @@ export default function MainMenuScreen({
 
   return (
     <div className="min-h-screen bg-bg-main text-black flex flex-col screen-transition">
-      <Navbar onBack={onBack} />
+      <Navbar />
 
       <div className="px-8 pt-4">
         {/* header */}
@@ -48,9 +42,12 @@ export default function MainMenuScreen({
           {/* check in */}
           <button
             className={`${cardBase} ${
-              isReturning || unlockedStep >= 0 ? enabledCard : disabledCard
+              isReturning || menuStep >= 0 ? enabledCard : disabledCard
             }`}
-            disabled={!isReturning && unlockedStep < 0}
+            disabled={!isReturning && menuStep < 0}
+            onClick={() => {
+                unlock(1)
+                navigate("checkIn")}}
           >
             <CheckSquare size={28} strokeWidth={1.8} />
             <div className="text-left">
@@ -64,9 +61,14 @@ export default function MainMenuScreen({
           {/* players */}
           <button
             className={`${cardBase} ${
-              isReturning || unlockedStep >= 1 ? enabledCard : disabledCard
+              isReturning || menuStep >= 1 ? enabledCard : disabledCard
             }`}
-            disabled={!isReturning && unlockedStep < 1}
+            disabled={!isReturning && menuStep < 1}
+            onClick ={ () =>{
+                unlock(2)
+                navigate("playerIntro")
+            }
+            }
           >
             <User size={28} strokeWidth={1.8} />
             <div className="text-left">
@@ -78,9 +80,12 @@ export default function MainMenuScreen({
           {/* trade list */}
           <button
             className={`${cardBase} ${
-              isReturning || unlockedStep >= 2 ? enabledCard : disabledCard
+              isReturning || menuStep >= 2 ? enabledCard : disabledCard
             }`}
-            disabled={!isReturning && unlockedStep < 2}
+            disabled={!isReturning && menuStep < 2}
+            onClick ={ () =>{
+                navigate("trading")
+            }}
           >
             <ClipboardList size={28} strokeWidth={1.8} />
             <div className="text-left">
