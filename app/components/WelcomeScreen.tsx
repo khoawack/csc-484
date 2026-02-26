@@ -23,9 +23,9 @@ export default function WelcomeScreen() {
         className="w-full h-auto rounded-xl"
       />
 
-      <div className="pt-4 text-sm flex-grow flex flex-col">
+      <div className="pt-4 text-sm flex flex-col">
         <p>
-          <strong>Location:</strong> Orchard City
+          <strong>Location:</strong> San Luis Obispo
         </p>
 
         <p className="mt-5 mb-8">
@@ -36,7 +36,7 @@ export default function WelcomeScreen() {
           welcoming environment.
         </p>
 
-        <p className="mb-15">
+        <p className="mb-6">
           Get ready, trade cards, and feel comfortable before this event starts.
         </p>
 
