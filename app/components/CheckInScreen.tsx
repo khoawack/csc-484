@@ -12,6 +12,7 @@ type Step = {
   description: string;
   imgSrc: string;
   imgAlt: string;
+  link?: string;
 }
 
 const steps: Step[] = [
@@ -20,6 +21,7 @@ const steps: Step[] = [
     description: "This will be used for the official tournament",
     imgSrc: "/checkin/bandai-tcgplus.png",
     imgAlt: "Bandai TCG+ app icon",
+    link:   "https://apps.apple.com/us/app/bandai-tcg/id1599299476",
   },
   {
     title: "Create an Account.",
@@ -57,7 +59,17 @@ function StepRow({ step }: { step: Step }) {
 
       <div className="pt-1">
         <h3 className="text-[15px] font-semibold leading-snug text-black">
-          {step.title}
+          {step.link ? (
+            <a
+              href={step.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:opacity-70 text-blue-600"
+            >
+              {step.title}
+            </a>
+          ) : (step.title)
+          }
         </h3>
         <p className="mt-1 text-sm leading-snug text-black/70">
           {step.description}
