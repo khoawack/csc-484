@@ -23,7 +23,7 @@ export default function MainMenuScreen() {
       <div className="px-8 pt-4">
         {/* header */}
         <div className="mb-8">
-          <h1 className="text-2xl font-semibold">Pre-Event Guide</h1>
+          <h1 className="text-2xl font-semibold">Pre-Event Hub</h1>
 
           {isReturning && (
             <p className="text-sm text-gray-600 italic">
@@ -99,7 +99,7 @@ export default function MainMenuScreen() {
 
         {/* footer */}
         <div className="mt-12 text-xs text-gray-600 italic leading-relaxed">
-          <p>You’ll switch to BandaiTCG+ once the event begins.</p>
+          <p>You'll switch to BandaiTCG+ once the event begins.</p>
           <p>Feel free to come back to show others your trading list.</p>
         </div>
       </div>

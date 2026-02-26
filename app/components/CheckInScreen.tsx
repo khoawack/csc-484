@@ -18,26 +18,26 @@ type Step = {
 const steps: Step[] = [
   {
     title: "Download the App.",
-    description: "This will be used for the official tournament",
-    imgSrc: "/checkin/bandai-tcgplus.png",
+    description: "This will be used for all tournament events.",
+    imgSrc: "/checkin/bandai-tcg-plus.png",
     imgAlt: "Bandai TCG+ app icon",
     link:   "https://apps.apple.com/us/app/bandai-tcg/id1599299476",
   },
   {
     title: "Create an Account.",
-    description: "Follow the in-app instructions for detailed creation.",
+    description: "Find the login button. Follow the in-app instructions to create an account.",
     imgSrc: "/checkin/create-account.png",
     imgAlt: "Create account screenshot",
   },
   {
     title: "Navigate to event search.",
-    description: 'In “Store Name / Organizer”, enter “Cosmic Heroes”',
-    imgSrc: "/checkin/event-search.png",
+    description: 'Under “Store Name / Organizer”, enter “Cosmic Heroes”.',
+    imgSrc: "/checkin/search-event.png",
     imgAlt: "Event search screenshot",
   },
   {
     title: "Apply to Today’s Event!",
-    description: "Find the event and submit your application to check in.",
+    description: "Find the event and hit apply to be in the event.",
     imgSrc: "/checkin/apply-event.png",
     imgAlt: "Apply to event screenshot",
   },
