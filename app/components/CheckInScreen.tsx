@@ -98,31 +98,25 @@ export default function CheckInScreen({ onBack, onNext }: Props) {
           All tournament activity is done within BandaiTCG+
         </p>
 
-        <div className="mt-8 space-y-7">
+        <div className="mt-6 space-y-7">
           {steps.map((s) => (
             <StepRow key={s.title} step={s} />
           ))}
         </div>
 
-        {/* Optional bottom actions if you want Next/Back buttons on this screen */}
-        {(onBack || onNext) && (
-          <div className="mt-10 flex items-center justify-between">
-            <button
-              type="button"
-              onClick={onBack}
-              className="rounded-xl px-4 py-2 text-sm font-semibold text-black/80 hover:bg-black/5"
+        <div className="mt-8">
+          <p className="text-sm text-black/70">
+            <a
+              href="https://lp.bandai-tcg-plus.com/en/use04.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold font-medium underline hover:opacity-70 text-blue-600"
             >
-              Back
-            </button>
-            <button
-              type="button"
-              onClick={onNext}
-              className="rounded-xl bg-black px-4 py-2 text-sm font-semibold text-white hover:bg-black/90"
-            >
-              Next
-            </button>
-          </div>
-        )}
+              Learn how to use the app during a tournament.
+            </a>{" "}
+            (pairings and match history).
+          </p>
+        </div>
       </div>
     </div>
   );
