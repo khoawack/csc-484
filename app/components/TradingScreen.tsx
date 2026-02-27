@@ -7,6 +7,12 @@ import { useAppFlow } from "../context/AppFlowContext";
 type Section = "trading" | "searching" | "selling"
 export default function TradingScreen() {
   const [section, setSection] = useState<Section>("trading");
+
+  const sectionBase = "underline underline-offset-8"
+
+  const selectedSection = "text-black transition-all duration-150";
+
+  const unselectedSection = "text-gray-400 transition-all duration-150";
   
   return (
     <div className="min-h-screen bg-bg-main text-black flex flex-col screen-transition">
@@ -23,13 +29,22 @@ export default function TradingScreen() {
         </div>
 
         <div className="grid grid-cols-3 mb-6">
-          <button className="underline underline-offset-8">
+          <button 
+            onClick={() => setSection("trading")}
+            className={`${sectionBase} ${section === "trading" ? selectedSection : unselectedSection}`}
+          >
             Trading
           </button>
-          <button className="underline underline-offset-8">
+          <button 
+            onClick={() => setSection("searching")}
+            className={`${sectionBase} ${section === "searching" ? selectedSection : unselectedSection}`}
+          >
             Searching
           </button>
-          <button className="underline underline-offset-8">
+          <button
+            onClick={() => setSection("selling")}
+            className={`${sectionBase} ${section === "selling" ? selectedSection : unselectedSection}`}
+          >
             Selling
           </button>
         </div>
