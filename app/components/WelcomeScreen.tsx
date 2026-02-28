@@ -42,7 +42,7 @@ export default function WelcomeScreen() {
 
         <button
           onClick={() => navigate("experience")}
-          className="w-full text-base bg-gray-300 hover:bg-gray-400 transition-all duration-200 active:scale-[0.98] py-3 rounded-xl text-center mx-auto"
+          className="w-full text-base bg-primary hover:opacity-90 text-white transition-all duration-200 active:scale-[0.98] py-3 rounded-xl text-center"
         >
           Start
         </button>
