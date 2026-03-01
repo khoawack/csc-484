@@ -21,14 +21,16 @@ export default function WelcomeScreen() {
           </div>
       </div>
 
-      <Image
-        src="https://i.ytimg.com/vi/CPtEyY3GPVQ/hq720.jpg"
-        alt="Cosmic Heroes Banner"
-        width={0}
-        height={0}
-        sizes="100vw"
-        className="w-full h-auto rounded-xl"
-      />
+      <div className="rounded-2xl overflow-hidden shadow-md">
+        <Image
+          src="https://i.ytimg.com/vi/CPtEyY3GPVQ/hq720.jpg"
+          alt="Cosmic Heroes Banner"
+          width={0}
+          height={0}
+          sizes="100vw"
+          className="w-full h-auto rounded-xl"
+        />
+      </div>
 
       <div className="pt-4 text-sm flex flex-col">
         <p>
