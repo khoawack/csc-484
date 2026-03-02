@@ -13,5 +13,5 @@ Open [http://localhost:3000](http://localhost:3000)
 
 
 ## Contribution Statements
-Jeremy Huang: Check-in page, polished the Welcome Page, functionality for Adding a player to the playerlist page.
+Jeremy Huang: Check-in page, polished the Welcome Page, functionality for Adding a player to the playerlist page.   
 Angel Ma: Formatting Trading List page and Add Card Page
