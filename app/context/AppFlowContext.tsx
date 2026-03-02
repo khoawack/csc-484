@@ -10,9 +10,18 @@ export type Screen =
   | "checkInDetails"
   | "playerIntro"
   | "trading"
+  | "addCard"
+  | "introduce";
   | "addCard";
 
 type ExperienceType = "new" | "returning" | null;
+
+export type Player = {
+  id: number;
+  name: string;
+  username: string;
+  picture: string;
+};
 
 type AppFlowContextType = {
   screen: Screen;
@@ -23,6 +32,8 @@ type AppFlowContextType = {
   setExperience: (e: ExperienceType) => void;
   menuStep: number;
   unlock: (step: number) => void;
+  players: Player[];
+  addPlayer: (player: Omit<Player, "id">) => void;
 };
 
 const AppFlowContext = createContext<AppFlowContextType | null>(null);
@@ -34,6 +45,30 @@ export function AppFlowProvider({ children }: { children: React.ReactNode }) {
 
   const [experience, setExperience] = useState<ExperienceType>(null);
   const [menuStep, setMenuStep] = useState(0);
+
+  // Global Player List
+  const [players, setPlayers] = useState<Player[]>([
+    {
+      id: 1,
+      name: "John Doe",
+      username: "snorlaxlover.123",
+      picture:
+        "https://i.pinimg.com/736x/f4/31/76/f43176cf062903a487363184ef571a2b.jpg",
+    },
+    {
+      id: 2,
+      name: "Jill Doe",
+      username: "dittolover.234",
+      picture: "https://pbs.twimg.com/media/EjXk-3kWkAAsltL.jpg",
+    },
+    {
+      id: 3,
+      name: "Jane Doe",
+      username: "pikachulover.567",
+      picture:
+        "https://i.pinimg.com/474x/27/4b/86/274b8668ce3435062eed1fe88bec6817.jpg",
+    },
+  ]);
 
   function navigate(next: Screen) {
     setHistory((prev) => [...prev, next]);
@@ -54,6 +89,17 @@ export function AppFlowProvider({ children }: { children: React.ReactNode }) {
     setMenuStep((prev) => Math.max(prev, step));
   }
 
+  // Helper
+  function addPlayer(player: Omit<Player, "id">) {
+    setPlayers((prev) => [
+      ...prev,
+      {
+        id: Date.now(), // simple unique id
+        ...player,
+      },
+    ]);
+  }
+
   return (
     <AppFlowContext.Provider
       value={{
@@ -65,6 +111,8 @@ export function AppFlowProvider({ children }: { children: React.ReactNode }) {
         setExperience,
         menuStep,
         unlock,
+        players,
+        addPlayer,
       }}
     >
       {children}
