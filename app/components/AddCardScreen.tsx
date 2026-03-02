@@ -1,13 +1,12 @@
 "use client";
 
 import Navbar from "./Navbar";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useAppFlow } from "../context/AppFlowContext";
-
-type Section = "trading" | "searching" | "selling"
+import type { ListingType } from "../context/AppFlowContext";
 
 export default function AddCardScreen() {
-  const [section, setSection] = useState<Section>("trading");
+  const { goBack, addListing, section, setSection } = useAppFlow();
   const sectionBase = "w-full py-2 rounded-xl border transition-all duration-150";
   const selectedSection = "border-primary text-primary";
   const unselectedSection = "border-gray-300 text-gray-400";
@@ -15,8 +14,30 @@ export default function AddCardScreen() {
   const [name, setName] = useState("");
   const [set, setSet] = useState("");
   const [desc, setDesc] = useState("");
+  const [message, setMessage] = useState("");
 
-  const { goBack } = useAppFlow();
+  function handleSave() {
+    if (!name.trim() || !set.trim() || !desc.trim()) {
+      setMessage("Please fill in the fields")
+      return
+    }
+    
+    const newListing = {
+      id: Date.now(),
+      name: name,
+      set: set,
+      description: desc,
+      type: (section === "trading" ? "trade" : section === "searching" ? "search" : "sell") as ListingType
+    };
+
+    addListing(newListing);
+
+    setName("");
+    setSet("");
+    setDesc("");
+
+    goBack();
+  }
 
   return (
     <div className="min-h-screen bg-bg-main text-black flex flex-col">
@@ -68,13 +89,16 @@ export default function AddCardScreen() {
           placeholder="Add short description."
         />
 
-        {/* this doesn't actually save yet ... if someone wants to work on this */}
         <button
-          onClick={() => goBack()}
+          onClick={handleSave}
           className="w-full text-base bg-gray-300 hover:bg-gray-400 transition active:scale-[0.98] mt-8 py-3 rounded-xl text-center mx-auto"
         >
           Save
         </button>
+        {message && (
+          <p className="text-red-500 text-center mt-4 text-sm font-medium">{message}</p>
+        )}
+
       </div>
     </div>
   );

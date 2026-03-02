@@ -14,6 +14,22 @@ export type Screen =
   | "introduce"
   | "addCard";
 
+export type ListingType =
+    | "trade"
+    | "sell"
+    | "search"
+
+export type Section = "trading" | "searching" | "selling"
+
+export type Listing = {
+    id: number;
+    name: string;
+    set: string;
+    description: string;
+    type: ListingType;
+}
+
+
 type ExperienceType = "new" | "returning" | null;
 
 export type Player = {
@@ -32,6 +48,11 @@ type AppFlowContextType = {
   setExperience: (e: ExperienceType) => void;
   menuStep: number;
   unlock: (step: number) => void;
+  listings: Listing[];
+  addListing: (listing: Listing) => void;
+  removeListing: (id: number) => void;
+  section: Section;
+  setSection: (section: Section) => void;
   players: Player[];
   addPlayer: (player: Omit<Player, "id">) => void;
 };
@@ -40,11 +61,13 @@ const AppFlowContext = createContext<AppFlowContextType | null>(null);
 
 export function AppFlowProvider({ children }: { children: React.ReactNode }) {
   const [history, setHistory] = useState<Screen[]>(["welcome"]); // prev page stack
+  const [listings, setListings] = useState<Listing[]>([])
 
   const screen = history[history.length - 1];
 
   const [experience, setExperience] = useState<ExperienceType>(null);
   const [menuStep, setMenuStep] = useState(0);
+  const [section, setSection] = useState<Section>("trading");
 
   // Global Player List
   const [players, setPlayers] = useState<Player[]>([
@@ -89,6 +112,14 @@ export function AppFlowProvider({ children }: { children: React.ReactNode }) {
     setMenuStep((prev) => Math.max(prev, step));
   }
 
+  function addListing(listing: Listing) {
+    setListings((prev) => [...prev, listing]);
+  }
+
+  function removeListing(id: number) {
+    setListings((prev) => prev.filter((item) => item.id !== id));
+  }
+
   // Helper
   function addPlayer(player: Omit<Player, "id">) {
     setPlayers((prev) => [
@@ -111,6 +142,11 @@ export function AppFlowProvider({ children }: { children: React.ReactNode }) {
         setExperience,
         menuStep,
         unlock,
+        listings,
+        addListing,
+        removeListing,
+        section,
+        setSection,
         players,
         addPlayer,
       }}
