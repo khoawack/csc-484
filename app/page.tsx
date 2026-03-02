@@ -7,6 +7,7 @@ import MainMenuScreen from "./components/MainMenuScreen";
 import CheckInScreen from "./components/CheckInScreen";
 import PlayerIntroScreen from "./components/PlayerIntroScreen";
 import TradingScreen from "./components/TradingScreen"
+import IntroduceYourselfScreen from "./components/IntroduceYourselfScreen";
 
 export default function Home() {
   const { screen } = useAppFlow();
@@ -22,6 +23,8 @@ export default function Home() {
       return <CheckInScreen />;
     case "playerIntro":
       return <PlayerIntroScreen />;
+    case "introduce":
+      return <IntroduceYourselfScreen />;
     case "trading":
       return <TradingScreen />
     default:
