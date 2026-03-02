@@ -27,6 +27,7 @@ export type Listing = {
     set: string;
     description: string;
     type: ListingType;
+    image: string;
 }
 
 

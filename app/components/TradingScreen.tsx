@@ -25,11 +25,12 @@ function CardListing({ listing }: { listing: Listing }) {
         {/* card image placeholder */}
         <div className="w-24 h-24 bg-gray-100 rounded shrink-0 flex items-center justify-center overflow-hidden">
           <Image
-            src="https://www.svgrepo.com/show/451667/image-missing.svg"
+            src={listing.image}
             alt="Card placeholder"
-            width={64}
-            height={64}
-            className="opacity-30"
+            width={96}
+            height={96}
+            className="w-full h-full object-cover"
+            unoptimized={listing.image.startsWith('data:')}
           />
         </div>
 
