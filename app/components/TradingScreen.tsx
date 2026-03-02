@@ -65,10 +65,14 @@ export default function TradingScreen() {
         {section === "searching" && <h2 className="text-2xl font-semibold leading-snug mb-6">Searching List</h2>}
         {section === "selling" && <h2 className="text-2xl font-semibold leading-snug mb-6">Selling List</h2>}
     
-        <div className="mb-6">
+        {/* probably should just remove this piece of text under ngl */}
+
+        {/* <div className="mb-6">
           <h2 className="text-lg font-semibold">Cosmic Heroes :</h2>
           <p className="text-gray-700">Saturday One Piece TCG Locals</p>
-        </div>
+        </div> */}
+
+
 
         <div className="grid grid-cols-3 mb-6">
           <button 
@@ -91,18 +95,22 @@ export default function TradingScreen() {
           </button>
         </div>
 
-        {/* listings */}
-        <div className="mb-8 max-h-[420px] overflow-y-auto overflow-x-hidden scrollbar-hide">
-          {(() => {
-            const typeMap = { trading: "trade", searching: "search", selling: "sell" } as const;
-            const filtered = listings.filter(l => l.type === typeMap[section]);
-            
-            return filtered.length === 0 ? (
-              <p className="text-gray-500 text-center py-8">start adding cards!</p>
-            ) : (
-              filtered.map(listing => <CardListing key={listing.id} listing={listing} />)
-            );
-          })()}
+        {/* listings with fade gradient */}
+        <div className="relative mb-8">
+          <div className="max-h-[470px] overflow-y-auto overflow-x-hidden scrollbar-hide">
+            {(() => {
+              const typeMap = { trading: "trade", searching: "search", selling: "sell" } as const;
+              const filtered = listings.filter(l => l.type === typeMap[section]);
+              
+              return filtered.length === 0 ? (
+                <p className="text-gray-500 text-center py-8">start adding cards!</p>
+              ) : (
+                filtered.map(listing => <CardListing key={listing.id} listing={listing} />)
+              );
+            })()}
+          </div>
+          {/* fade gradient overlay */}
+          <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-bg-main to-transparent pointer-events-none"></div>
         </div>
 
         <button
