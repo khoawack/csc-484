@@ -7,20 +7,116 @@ type Props = {
   onNext?: () => void;
 };
 
+type Step = {
+  title: string;
+  description: string;
+  imgSrc: string;
+  imgAlt: string;
+  link?: string;
+}
+
+const steps: Step[] = [
+  {
+    title: "Download the App.",
+    description: "This will be used for all tournament events.",
+    imgSrc: "/checkin/bandai-tcg-plus.png",
+    imgAlt: "Bandai TCG+ app icon",
+    link:   "https://apps.apple.com/us/app/bandai-tcg/id1599299476",
+  },
+  {
+    title: "Create an Account.",
+    description: "Find the login button. Follow the in-app instructions to create an account.",
+    imgSrc: "/checkin/create-account.png",
+    imgAlt: "Create account screenshot",
+  },
+  {
+    title: "Navigate to event search.",
+    description: 'Under “Store Name / Organizer”, enter “Cosmic Heroes”.',
+    imgSrc: "/checkin/search-event.png",
+    imgAlt: "Event search screenshot",
+  },
+  {
+    title: "Apply to Today’s Event!",
+    description: "Find the event and hit apply to be in the event.",
+    imgSrc: "/checkin/apply-event.png",
+    imgAlt: "Apply to event screenshot",
+  },
+];
+
+function StepRow({ step }: { step: Step }) {
+  return (
+    <div className="flex gap-4">
+      <div className="w-[92px] shrink-0">
+        <div className="aspect-square w-[92px] overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-black/5">
+          <img
+            src={step.imgSrc}
+            alt={step.imgAlt}
+            className="h-full w-full object-cover"
+            draggable={false}
+          />
+        </div>
+      </div>
+
+      <div className="pt-1">
+        <h3 className="text-[15px] font-semibold leading-snug text-black">
+          {step.link ? (
+            <a
+              href={step.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:opacity-70 text-blue-600"
+            >
+              {step.title}
+            </a>
+          ) : (step.title)
+          }
+        </h3>
+        <p className="mt-1 text-sm leading-snug text-black/70">
+          {step.description}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+
 export default function CheckInScreen({ onBack, onNext }: Props) {
   return (
     <div className="min-h-screen bg-bg-main text-black flex flex-col screen-transition">
       <Navbar />
 
-      <div className="px-8 pt-6">
-        <h2 className="text-2xl font-semibold leading-snug mb-6">
-          Check-In Process
-        </h2>
+      <div className="px-8 pt-2 pb-10">
+        <h1 className="text-2xl font-semibold leading-snug">
+          Check in Guide
+        </h1>
 
-        <p className="text-gray-700 mb-8">
-          todo: check in instructions
+        <p className="mt-2 text-base font-semibold text-black/80">
+          Every Saturday at 2pm
         </p>
 
+        <p className="mt-3 text-sm leading-relaxed text-black/70 max-w-[40ch]">
+          All tournament activity is done within BandaiTCG+
+        </p>
+
+        <div className="mt-6 space-y-7">
+          {steps.map((s) => (
+            <StepRow key={s.title} step={s} />
+          ))}
+        </div>
+
+        <div className="mt-8">
+          <p className="text-sm text-black/70">
+            <a
+              href="https://lp.bandai-tcg-plus.com/en/use04.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold font-medium underline hover:opacity-70 text-blue-600"
+            >
+              Learn how to use the app during a tournament.
+            </a>{" "}
+            (pairings and match history).
+          </p>
+        </div>
       </div>
     </div>
   );

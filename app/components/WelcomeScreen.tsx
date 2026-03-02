@@ -23,9 +23,9 @@ export default function WelcomeScreen() {
         className="w-full h-auto rounded-xl"
       />
 
-      <div className="pt-4 text-sm flex-grow flex flex-col">
+      <div className="pt-4 text-sm flex flex-col">
         <p>
-          <strong>Location:</strong> Orchard City
+          <strong>Location:</strong> San Luis Obispo
         </p>
 
         <p className="mt-5 mb-8">
@@ -36,13 +36,13 @@ export default function WelcomeScreen() {
           welcoming environment.
         </p>
 
-        <p className="mb-15">
+        <p className="mb-6">
           Get ready, trade cards, and feel comfortable before this event starts.
         </p>
 
         <button
           onClick={() => navigate("experience")}
-          className="w-full text-base bg-gray-300 hover:bg-gray-400 transition-all duration-200 active:scale-[0.98] py-3 rounded-xl text-center mx-auto"
+          className="w-full text-base bg-primary hover:opacity-90 text-white transition-all duration-200 active:scale-[0.98] py-3 rounded-xl text-center"
         >
           Start
         </button>
