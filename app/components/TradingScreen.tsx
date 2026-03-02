@@ -96,22 +96,26 @@ export default function TradingScreen() {
         </div>
 
         {/* listings with fade gradient */}
-        <div className="relative mb-8">
-          <div className="max-h-[470px] overflow-y-auto overflow-x-hidden scrollbar-hide">
-            {(() => {
-              const typeMap = { trading: "trade", searching: "search", selling: "sell" } as const;
-              const filtered = listings.filter(l => l.type === typeMap[section]);
-              
-              return filtered.length === 0 ? (
-                <p className="text-gray-500 text-center py-8">start adding cards!</p>
-              ) : (
-                filtered.map(listing => <CardListing key={listing.id} listing={listing} />)
-              );
-            })()}
-          </div>
-          {/* fade gradient overlay */}
-          <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-bg-main to-transparent pointer-events-none"></div>
-        </div>
+        {(() => {
+          const typeMap = { trading: "trade", searching: "search", selling: "sell" } as const;
+          const filtered = listings.filter(l => l.type === typeMap[section]);
+          
+          return (
+            <div className="relative mb-8">
+              <div className="max-h-[470px] overflow-y-auto overflow-x-hidden scrollbar-hide">
+                {filtered.length === 0 ? (
+                  <p className="text-gray-500 text-center py-8">start adding cards!</p>
+                ) : (
+                  filtered.map(listing => <CardListing key={listing.id} listing={listing} />)
+                )}
+              </div>
+              {/* fade gradient overlay - only show if 4+ cards */}
+              {filtered.length >= 4 && (
+                <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-bg-main to-transparent pointer-events-none"></div>
+              )}
+            </div>
+          );
+        })()}
 
         <button
           onClick={() => navigate("addCard")} 
