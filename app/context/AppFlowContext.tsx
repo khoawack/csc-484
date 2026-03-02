@@ -9,7 +9,8 @@ export type Screen =
   | "checkIn"
   | "checkInDetails"
   | "playerIntro"
-  | "trading";
+  | "trading"
+  | "addCard";
 
 type ExperienceType = "new" | "returning" | null;
 
