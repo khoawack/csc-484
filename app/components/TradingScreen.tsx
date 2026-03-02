@@ -6,6 +6,8 @@ import { useAppFlow } from "../context/AppFlowContext";
 
 type Section = "trading" | "searching" | "selling"
 export default function TradingScreen() {
+  const { navigate } = useAppFlow();
+
   const [section, setSection] = useState<Section>("trading");
 
   const sectionBase = "underline underline-offset-8"
@@ -19,9 +21,9 @@ export default function TradingScreen() {
       <Navbar />
 
       <div className="px-8 pt-6">
-        <h2 className="text-2xl font-semibold leading-snug mb-6">
-          Trading List
-        </h2>
+        {section === "trading" && <h2 className="text-2xl font-semibold leading-snug mb-6">Trading List</h2>}
+        {section === "searching" && <h2 className="text-2xl font-semibold leading-snug mb-6">Searching List</h2>}
+        {section === "selling" && <h2 className="text-2xl font-semibold leading-snug mb-6">Selling List</h2>}
     
         <div className="mb-6">
           <h2 className="text-lg font-semibold">Cosmic Heroes :</h2>
@@ -49,8 +51,15 @@ export default function TradingScreen() {
           </button>
         </div>
 
-        <p className="text-gray-700 mb-8">todo: trading list content</p>
-        <button className="w-full mt-12 py-3 rounded-xl bg-gray-200 hover:bg-gray-400 transition-all duration-300">Add a card</button>
+        {section === "trading" && <p className="text-gray-700 mb-8">todo: trading list content</p>}
+        {section === "searching" && <p className="text-gray-700 mb-8">todo: searching list content</p>}
+        {section === "selling" && <p className="text-gray-700 mb-8">todo: selling list content</p>}
+
+        <button
+          onClick={() => navigate("addCard")} 
+          className="w-full text-base bg-gray-300 hover:bg-gray-400 transition active:scale-[0.98] mt-8 py-3 rounded-xl text-center mx-auto">Add a card
+        </button>
+
       </div>
     </div>
   );
