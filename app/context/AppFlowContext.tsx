@@ -12,6 +12,7 @@ export type Screen =
   | "trading"
   | "addCard"
   | "introduce";
+  | "addCard";
 
 type ExperienceType = "new" | "returning" | null;
 
