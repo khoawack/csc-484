@@ -11,8 +11,7 @@ export type Screen =
   | "playerIntro"
   | "trading"
   | "addCard"
-  | "introduce"
-  | "addCard";
+  | "introduce";
 
 export type ListingType =
     | "trade"
@@ -56,6 +55,10 @@ type AppFlowContextType = {
   setSection: (section: Section) => void;
   players: Player[];
   addPlayer: (player: Omit<Player, "id">) => void;
+
+  selfPlayerId: number | null;
+  getSelfPlayer: () => Player | null;
+  saveSelfPlayer: (player: Omit<Player, "id">) => void;
 };
 
 const AppFlowContext = createContext<AppFlowContextType | null>(null);
@@ -69,6 +72,8 @@ export function AppFlowProvider({ children }: { children: React.ReactNode }) {
   const [experience, setExperience] = useState<ExperienceType>(null);
   const [menuStep, setMenuStep] = useState(0);
   const [section, setSection] = useState<Section>("trading");
+
+  const [selfPlayerId, setSelfPlayerId] = useState<number | null>(null);
 
   // Global Player List
   const [players, setPlayers] = useState<Player[]>([
@@ -132,6 +137,25 @@ export function AppFlowProvider({ children }: { children: React.ReactNode }) {
     ]);
   }
 
+  function getSelfPlayer() {
+    if (selfPlayerId == null) return null;
+    return players.find((p) => p.id === selfPlayerId) ?? null;
+  }
+
+  function saveSelfPlayer(player: Omit<Player, "id">) {
+    setPlayers((prev) => {
+      // If self exists, update it (no duplicates)
+      if (selfPlayerId != null) {
+        return prev.map((p) => (p.id === selfPlayerId ? { ...p, ...player } : p));
+      }
+
+      // Otherwise create once and remember its id
+      const id = Date.now();
+      setSelfPlayerId(id);
+      return [...prev, { id, ...player }];
+    });
+  }
+
   return (
     <AppFlowContext.Provider
       value={{
@@ -150,6 +174,9 @@ export function AppFlowProvider({ children }: { children: React.ReactNode }) {
         setSection,
         players,
         addPlayer,
+        selfPlayerId,
+        getSelfPlayer,
+        saveSelfPlayer,
       }}
     >
       {children}
