@@ -1,12 +1,12 @@
 "use client";
 
 import Navbar from "./Navbar";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Plus } from "lucide-react";
 import { useAppFlow } from "../context/AppFlowContext";
 
 export default function IntroduceYourselfScreen() {
-  const { goBack, addPlayer } = useAppFlow();
+  const { goBack, getSelfPlayer, saveSelfPlayer } = useAppFlow();
 
   const fileRef = useRef<HTMLInputElement | null>(null);
 
@@ -14,6 +14,17 @@ export default function IntroduceYourselfScreen() {
   const [name, setName] = useState("");
   const [tag, setTag] = useState("");
   const [funFact, setFunFact] = useState("");
+
+  useEffect(() => {
+    const me = getSelfPlayer();
+    if (!me) return;
+  
+    setName(me.name);
+    setTag(me.username);
+    setPhotoUrl(me.picture);
+    // setFunFact(me.funFact ?? ""); // later, if you add funFact to Player
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const canSave = useMemo(() => {
     return name.trim().length > 0 && tag.trim().length > 0;
@@ -34,12 +45,10 @@ export default function IntroduceYourselfScreen() {
   function onSave() {
     if (!canSave) return;
 
-    addPlayer({
+    saveSelfPlayer({
       name: name.trim(),
       username: tag.trim(),
-      picture:
-        photoUrl ||
-        "https://via.placeholder.com/300x300.png?text=Player", // fallback
+      picture: photoUrl || "https://via.placeholder.com/300x300.png?text=Player", // fallback
       // funFact is currently not in your Player type.
       // If you want to store it too, we can add it to Player in context.
     });
