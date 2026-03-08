@@ -37,6 +37,7 @@ export type Player = {
   name: string;
   username: string;
   picture: string;
+  funFact?: string;
 };
 
 type AppFlowContextType = {

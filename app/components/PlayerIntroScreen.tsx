@@ -24,6 +24,11 @@ function PlayerCard({ player }: { player: Player }) {
         <p className="mt-1 text-sm leading-snug text-black/70">
           {player.username}
         </p>
+        {player.funFact && (
+          <p className="mt-1 text-sm italic leading-snug text-black/60">
+            {player.funFact}
+          </p>
+        )}
       </div>
     </div>
   );

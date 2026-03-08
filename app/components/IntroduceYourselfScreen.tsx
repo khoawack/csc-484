@@ -22,8 +22,7 @@ export default function IntroduceYourselfScreen() {
     setName(me.name);
     setTag(me.username);
     setPhotoUrl(me.picture);
-    // setFunFact(me.funFact ?? ""); // later, if you add funFact to Player
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setFunFact(me.funFact ?? "");
   }, []);
 
   const canSave = useMemo(() => {
@@ -48,9 +47,8 @@ export default function IntroduceYourselfScreen() {
     saveSelfPlayer({
       name: name.trim(),
       username: tag.trim(),
-      picture: photoUrl || "https://via.placeholder.com/300x300.png?text=Player", // fallback
-      // funFact is currently not in your Player type.
-      // If you want to store it too, we can add it to Player in context.
+      picture: photoUrl || "https://via.placeholder.com/300x300.png?text=Player",
+      funFact: funFact.trim() ? funFact.trim() : undefined,
     });
 
     goBack();
