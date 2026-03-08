@@ -30,7 +30,7 @@ function PlayerCard({ player }: { player: Player }) {
 }
 
 export default function PlayerIntroScreen() {
-  const { navigate, players } = useAppFlow();
+  const { navigate, players, selfPlayerId } = useAppFlow();
 
   return (
     <div className="min-h-screen bg-bg-main text-black flex flex-col screen-transition">
@@ -55,7 +55,7 @@ export default function PlayerIntroScreen() {
             onClick={() => navigate("introduce")}
             className="w-full text-base bg-gray-300 hover:bg-gray-400 transition active:scale-[0.98] py-3 rounded-xl text-center mx-auto"
           >
-            Introduce Yourself
+            {selfPlayerId ? "Edit information" : "Introduce Yourself"}
           </button>
         </div>
       </div>
