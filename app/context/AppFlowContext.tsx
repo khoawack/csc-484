@@ -128,15 +128,9 @@ export function AppFlowProvider({ children }: { children: React.ReactNode }) {
     setListings((prev) => prev.filter((item) => item.id !== id));
   }
 
-  // Helper
   function addPlayer(player: Omit<Player, "id">) {
-    setPlayers((prev) => [
-      ...prev,
-      {
-        id: Date.now(), // simple unique id
-        ...player,
-      },
-    ]);
+    const id = Date.now() + Math.floor(Math.random() * 1000);
+    setPlayers((prev) => [...prev, { id, ...player }]);
   }
 
   function getSelfPlayer() {
@@ -145,17 +139,18 @@ export function AppFlowProvider({ children }: { children: React.ReactNode }) {
   }
 
   function saveSelfPlayer(player: Omit<Player, "id">) {
-    setPlayers((prev) => {
-      // If self exists, update it (no duplicates)
-      if (selfPlayerId != null) {
-        return prev.map((p) => (p.id === selfPlayerId ? { ...p, ...player } : p));
-      }
-
-      // Otherwise create once and remember its id
-      const id = Date.now();
-      setSelfPlayerId(id);
-      return [...prev, { id, ...player }];
-    });
+    // If self exists, update it
+    if (selfPlayerId != null) {
+      setPlayers((prev) =>
+        prev.map((p) => (p.id === selfPlayerId ? { ...p, ...player } : p))
+      );
+      return;
+    }
+  
+    // Otherwise create once and remember its id
+    const id = Date.now() + Math.floor(Math.random() * 1000); // avoid rare collisions
+    setSelfPlayerId(id);
+    setPlayers((prev) => [...prev, { id, ...player }]);
   }
 
   function deleteSelfPlayer() {
