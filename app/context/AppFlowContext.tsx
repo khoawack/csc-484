@@ -95,6 +95,7 @@ export function AppFlowProvider({ children }: { children: React.ReactNode }) {
       name: "Jill Doe",
       username: "dittolover.234",
       picture: "https://pbs.twimg.com/media/EjXk-3kWkAAsltL.jpg",
+      funFact: "i love ditto :D",
     },
     {
       id: 3,
@@ -102,6 +103,7 @@ export function AppFlowProvider({ children }: { children: React.ReactNode }) {
       username: "pikachulover.567",
       picture:
         "https://i.pinimg.com/474x/27/4b/86/274b8668ce3435062eed1fe88bec6817.jpg",
+      funFact: "(,,>ヮ<,,)!"
     },
   ]);
 
