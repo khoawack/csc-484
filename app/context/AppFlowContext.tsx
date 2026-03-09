@@ -56,11 +56,12 @@ type AppFlowContextType = {
   setSection: (section: Section) => void;
   players: Player[];
   addPlayer: (player: Omit<Player, "id">) => void;
-
   selfPlayerId: number | null;
   getSelfPlayer: () => Player | null;
   saveSelfPlayer: (player: Omit<Player, "id">) => void;
   deleteSelfPlayer: () => void;
+  toast: string | null;
+  showToast: (msg: string) => void;
 };
 
 const AppFlowContext = createContext<AppFlowContextType | null>(null);
@@ -76,6 +77,8 @@ export function AppFlowProvider({ children }: { children: React.ReactNode }) {
   const [section, setSection] = useState<Section>("trading");
 
   const [selfPlayerId, setSelfPlayerId] = useState<number | null>(null);
+
+  const [toast, setToast] = useState<string | null>(null);
 
   // Global Player List
   const [players, setPlayers] = useState<Player[]>([
@@ -144,10 +147,12 @@ export function AppFlowProvider({ children }: { children: React.ReactNode }) {
       setPlayers((prev) =>
         prev.map((p) => (p.id === selfPlayerId ? { ...p, ...player } : p))
       );
+      showToast("Profile updated")
       return;
     }
   
     // Otherwise create once and remember its id
+    showToast("Profile added")
     const id = Date.now() + Math.floor(Math.random() * 1000); // avoid rare collisions
     setSelfPlayerId(id);
     setPlayers((prev) => [...prev, { id, ...player }]);
@@ -158,6 +163,12 @@ export function AppFlowProvider({ children }: { children: React.ReactNode }) {
   
     setPlayers((prev) => prev.filter((p) => p.id !== selfPlayerId));
     setSelfPlayerId(null);
+    showToast("Profile deleted")
+  }
+
+  function showToast(msg: string) {
+    setToast(msg);
+    window.setTimeout(() => setToast(null), 2000);
   }
 
   return (
@@ -182,6 +193,8 @@ export function AppFlowProvider({ children }: { children: React.ReactNode }) {
         getSelfPlayer,
         saveSelfPlayer,
         deleteSelfPlayer,
+        toast,
+        showToast,
       }}
     >
       {children}

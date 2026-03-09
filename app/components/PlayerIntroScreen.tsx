@@ -57,11 +57,18 @@ function PlayerCard({
 }
 
 export default function PlayerIntroScreen() {
-  const { navigate, players, selfPlayerId, deleteSelfPlayer } = useAppFlow();
+  const { navigate, players, selfPlayerId, deleteSelfPlayer, toast } = useAppFlow();
 
   return (
     <div className="min-h-screen bg-bg-main text-black flex flex-col screen-transition">
       <Navbar />
+      {toast && (
+        <div className="px-8 pt-2">
+          <div className="rounded-xl bg-black/80 text-white text-sm px-4 py-3 shadow-sm animate-slideDown">
+            {toast}
+          </div>
+        </div>
+      )}
       <div className="px-8 pt-6 flex flex-col flex-1">
         <h2 className="text-2xl font-semibold leading-snug mb-6">
           Player List
