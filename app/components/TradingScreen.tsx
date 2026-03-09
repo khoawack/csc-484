@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useAppFlow } from "../context/AppFlowContext";
 import type { Listing } from "../context/AppFlowContext";
 import { useState } from "react";
+import ConfirmationModal from "./ConfirmationModal";
 
 function CardListing({ listing }: { listing: Listing }) {
   const { removeListing } = useAppFlow();
@@ -51,31 +52,14 @@ function CardListing({ listing }: { listing: Listing }) {
         </div>
       </div>
 
-      {/* Confirmation Modal */}
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-8">
-          <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl">
-            <h3 className="text-xl font-semibold mb-3">Remove Card?</h3>
-            <p className="text-gray-600 mb-6">
-              Are you sure you want to remove <span className="font-semibold">{listing.name}</span> from your list?
-            </p>
-            <div className="flex gap-3">
-              <button
-                onClick={() => setShowModal(false)}
-                className="flex-1 py-3 px-4 bg-gray-200 hover:bg-gray-300 rounded-xl font-medium transition active:scale-[0.98]"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleDelete}
-                className="flex-1 py-3 px-4 bg-red-500 hover:bg-red-600 text-white rounded-xl font-medium transition active:scale-[0.98]"
-              >
-                Remove
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <ConfirmationModal
+        isOpen={showModal}
+        title="Remove Card?"
+        message={`Are you sure you want to remove ${listing.name} from your list?`}
+        confirmText="Remove"
+        onConfirm={handleDelete}
+        onCancel={() => setShowModal(false)}
+      />
     </>
   )
 }

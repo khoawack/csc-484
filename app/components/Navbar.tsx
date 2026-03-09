@@ -3,6 +3,7 @@
 import { ChevronLeft } from "lucide-react";
 import { useAppFlow } from "../context/AppFlowContext";
 import { useState } from "react";
+import ConfirmationModal from "./ConfirmationModal";
 
 export default function Navbar() {
   const { goBack, screen, resetAll } = useAppFlow();
@@ -39,31 +40,14 @@ export default function Navbar() {
         <div className="h-px bg-black/5" />
       </div>
 
-      {/* confirmation modal */}
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-8">
-          <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl">
-            <h3 className="text-xl font-semibold mb-3">Return to Main Menu?</h3>
-            <p className="text-gray-600 mb-6">
-              This will reset all your data and return you to the welcome screen.
-            </p>
-            <div className="flex gap-3">
-              <button
-                onClick={() => setShowModal(false)}
-                className="flex-1 py-3 px-4 bg-gray-200 hover:bg-gray-300 rounded-xl font-medium transition active:scale-[0.98]"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleConfirm}
-                className="flex-1 py-3 px-4 bg-red-500 hover:bg-red-600 text-white rounded-xl font-medium transition active:scale-[0.98]"
-              >
-                Reset & Exit
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <ConfirmationModal
+        isOpen={showModal}
+        title="Return to Main Menu?"
+        message="This will reset all your data and return you to the welcome screen."
+        confirmText="Reset & Exit"
+        onConfirm={handleConfirm}
+        onCancel={() => setShowModal(false)}
+      />
     </>
   );
 }

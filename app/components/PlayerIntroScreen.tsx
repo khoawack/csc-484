@@ -3,15 +3,17 @@
 import Navbar from "./Navbar";
 import { useAppFlow, type Player } from "../context/AppFlowContext";
 import { Trash2 } from "lucide-react";
+import { useState } from "react";
+import ConfirmationModal from "./ConfirmationModal";
 
 function PlayerCard({ 
   player,
   isSelf,
-  onDelete,
+  onDeleteClick,
 }: { 
   player: Player;
   isSelf: boolean;
-  onDelete: () => void;
+  onDeleteClick: () => void;
 }) {
   return (
     <div className="flex gap-4 items-start">
@@ -44,7 +46,7 @@ function PlayerCard({
       {isSelf && (
         <button
           type="button"
-          onClick={onDelete}
+          onClick={onDeleteClick}
           className="p-2 rounded-lg hover:bg-black/5 active:scale-[0.98] transition"
           aria-label="Delete your profile"
           title="Delete your profile"
@@ -58,6 +60,12 @@ function PlayerCard({
 
 export default function PlayerIntroScreen() {
   const { navigate, players, selfPlayerId, deleteSelfPlayer, toast } = useAppFlow();
+  const [showModal, setShowModal] = useState(false);
+
+  const handleDelete = () => {
+    deleteSelfPlayer();
+    setShowModal(false);
+  };
 
   return (
     <div className="h-screen bg-bg-main text-black flex flex-col screen-transition overflow-hidden">
@@ -87,12 +95,7 @@ export default function PlayerIntroScreen() {
                   key={player.id}
                   player={player}
                   isSelf={isSelf}
-                  onDelete={() => {
-                    if (!isSelf) return;
-                    const ok = window.confirm("Delete your profile from the player list?");
-                    if (!ok) return;
-                    deleteSelfPlayer();
-                  }}
+                  onDeleteClick={() => setShowModal(true)}
                 />
               );
             })}
@@ -110,6 +113,15 @@ export default function PlayerIntroScreen() {
           {selfPlayerId ? "Edit information" : "Introduce Yourself"}
         </button>
       </div>
+
+      <ConfirmationModal
+        isOpen={showModal}
+        title="Delete Profile?"
+        message="Are you sure you want to delete your profile from the player list?"
+        confirmText="Delete"
+        onConfirm={handleDelete}
+        onCancel={() => setShowModal(false)}
+      />
     </div>
   );
 }
