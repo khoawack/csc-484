@@ -102,9 +102,9 @@ export default function TradingScreen() {
           
           return (
             <div className="relative mb-8">
-              <div className="max-h-[470px] overflow-y-auto overflow-x-hidden scrollbar-hide">
+              <div className="max-h-[470px] overflow-y-auto overflow-x-h  idden scrollbar-hide">
                 {filtered.length === 0 ? (
-                  <p className="text-gray-500 text-center py-8">start adding cards!</p>
+                  <p className="text-gray-500 text-center py-8">No cards up for listing yet, be the first!</p>
                 ) : (
                   filtered.map(listing => <CardListing key={listing.id} listing={listing} />)
                 )}
