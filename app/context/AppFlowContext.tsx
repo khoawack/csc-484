@@ -192,7 +192,7 @@ export function AppFlowProvider({ children }: { children: React.ReactNode }) {
     showToast("Profile added")
     const id = Date.now() + Math.floor(Math.random() * 1000); // avoid rare collisions
     setSelfPlayerId(id);
-    setPlayers((prev) => [...prev, { id, ...player }]);
+    setPlayers((prev) => [{ id, ...player }, ...prev]);
   }
 
   function deleteSelfPlayer() {

@@ -21,8 +21,11 @@ export default function IntroduceYourselfScreen() {
   
     setName(me.name);
     setTag(me.username);
-    setPhotoUrl(me.picture);
+    const picture = me.picture || "";
+    const isPlaceholder = picture.includes("placeholder") || picture.includes("text=Player") || picture.includes("image-missing.svg");
+    setPhotoUrl(isPlaceholder ? "" : picture);
     setFunFact(me.funFact ?? "");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const canSave = useMemo(() => {
@@ -73,7 +76,7 @@ export default function IntroduceYourselfScreen() {
             className="w-[92px] h-[92px] rounded-xl bg-gray-300/60 flex items-center justify-center shrink-0 overflow-hidden ring-1 ring-black/5 active:scale-[0.98] transition"
             aria-label="Add a profile photo"
           >
-            {photoUrl ? (
+            {photoUrl && !photoUrl.includes("image-missing.svg") ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={photoUrl}

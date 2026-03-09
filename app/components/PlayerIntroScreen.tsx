@@ -18,7 +18,7 @@ function PlayerCard({
       <div className="w-[92px] shrink-0">
         <div className="aspect-square w-[92px] overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-black/5">
           <img
-            src={player.picture}
+            src={player.picture || "https://via.placeholder.com/300x300.png?text=No+Photo"}
             alt={`Profile picture of ${player.name}`}
             className="h-full w-full object-cover"
             draggable={false}
