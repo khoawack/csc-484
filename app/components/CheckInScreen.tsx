@@ -64,7 +64,7 @@ function StepRow({ step }: { step: Step }) {
               href={step.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="underline hover:opacity-70 text-blue-600"
+              className="underline hover:opacity-70 text-primary"
             >
               {step.title}
             </a>
@@ -110,7 +110,7 @@ export default function CheckInScreen({ onBack, onNext }: Props) {
               href="https://lp.bandai-tcg-plus.com/en/use04.html"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-semibold font-medium underline hover:opacity-70 text-blue-600"
+              className="font-semibold font-medium underline hover:opacity-70 text-primary"
             >
               Learn how to use the app during a tournament.
             </a>{" "}

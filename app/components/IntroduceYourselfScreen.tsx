@@ -47,7 +47,7 @@ export default function IntroduceYourselfScreen() {
     saveSelfPlayer({
       name: name.trim(),
       username: tag.trim(),
-      picture: photoUrl || "https://via.placeholder.com/300x300.png?text=Player",
+      picture: photoUrl || "https://www.svgrepo.com/show/451667/image-missing.svg",
       funFact: funFact.trim() ? funFact.trim() : undefined,
     });
 
@@ -88,10 +88,10 @@ export default function IntroduceYourselfScreen() {
 
           <div className="pt-2">
             <p className="text-sm font-semibold text-black">
-              Add an image of yourself
+              Add an image
             </p>
             <p className="text-sm italic text-black/60 leading-snug">
-              This will help you and other players during the event
+              This will help you and other players during the event [optional]
             </p>
           </div>
 
