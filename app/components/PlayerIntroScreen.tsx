@@ -60,7 +60,7 @@ export default function PlayerIntroScreen() {
   const { navigate, players, selfPlayerId, deleteSelfPlayer, toast } = useAppFlow();
 
   return (
-    <div className="min-h-screen bg-bg-main text-black flex flex-col screen-transition">
+    <div className="h-screen bg-bg-main text-black flex flex-col screen-transition overflow-hidden">
       <Navbar />
       {toast && (
         <div className="px-8 pt-2">
@@ -69,7 +69,7 @@ export default function PlayerIntroScreen() {
           </div>
         </div>
       )}
-      <div className="px-8 pt-6 flex flex-col flex-1">
+      <div className="px-8 pt-6 flex flex-col flex-1 overflow-hidden">
         <h2 className="text-2xl font-semibold leading-snug mb-6">
           Player List
         </h2>
@@ -77,34 +77,38 @@ export default function PlayerIntroScreen() {
         <p className="text-lg font-semibold text-black mb-1">Cosmic Heroes:</p>
         <p className="text-gray-700 mb-6">Saturday One Piece TCG Locals</p>
 
-        {/* Scrollable list */}
-        <div className="flex-1 overflow-y-auto space-y-6 pr-2">
-          {players.map((player) => {
-            const isSelf = selfPlayerId === player.id;
-            return (
-              <PlayerCard
-                key={player.id}
-                player={player}
-                isSelf={isSelf}
-                onDelete={() => {
-                  if (!isSelf) return;
-                  const ok = window.confirm("Delete your profile from the player list?");
-                  if (!ok) return;
-                  deleteSelfPlayer();
-                }}
-              />
-            );
-          })}
+        {/* list with fade gradient */}
+        <div className="relative flex-1 min-h-0 mb-6">
+          <div className="h-full overflow-y-auto overflow-x-hidden scrollbar-hide space-y-6 pr-2 pb-20">
+            {players.map((player) => {
+              const isSelf = selfPlayerId === player.id;
+              return (
+                <PlayerCard
+                  key={player.id}
+                  player={player}
+                  isSelf={isSelf}
+                  onDelete={() => {
+                    if (!isSelf) return;
+                    const ok = window.confirm("Delete your profile from the player list?");
+                    if (!ok) return;
+                    deleteSelfPlayer();
+                  }}
+                />
+              );
+            })}
+          </div>
+          {/* fade gradient overlay - only show if 4+ players */}
+          {players.length >= 4 && (
+            <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-bg-main to-transparent pointer-events-none"></div>
+          )}
         </div>
         
-        <div className="pt-6 pb-6">
-          <button
-            onClick={() => navigate("introduce")}
-            className="w-full text-base bg-gray-300 hover:bg-gray-400 transition active:scale-[0.98] py-3 rounded-xl text-center mx-auto"
-          >
-            {selfPlayerId ? "Edit information" : "Introduce Yourself"}
-          </button>
-        </div>
+        <button
+          onClick={() => navigate("introduce")}
+          className="w-full text-base bg-gray-300 hover:bg-gray-400 transition active:scale-[0.98] py-3 rounded-xl text-center mx-auto mb-6"
+        >
+          {selfPlayerId ? "Edit information" : "Introduce Yourself"}
+        </button>
       </div>
     </div>
   );

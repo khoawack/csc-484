@@ -57,10 +57,10 @@ export default function TradingScreen() {
 
   
   return (
-    <div className="min-h-screen bg-bg-main text-black flex flex-col screen-transition">
+    <div className="h-screen bg-bg-main text-black flex flex-col screen-transition overflow-hidden">
       <Navbar />
 
-      <div className="px-8 pt-6">
+      <div className="px-8 pt-6 flex flex-col flex-1 overflow-hidden">
         {section === "trading" && <h2 className="text-2xl font-semibold leading-snug mb-6">Trading List</h2>}
         {section === "searching" && <h2 className="text-2xl font-semibold leading-snug mb-6">Searching List</h2>}
         {section === "selling" && <h2 className="text-2xl font-semibold leading-snug mb-6">Selling List</h2>}
@@ -101,8 +101,8 @@ export default function TradingScreen() {
           const filtered = listings.filter(l => l.type === typeMap[section]);
           
           return (
-            <div className="relative mb-8">
-              <div className="max-h-[470px] overflow-y-auto overflow-x-h  idden scrollbar-hide">
+            <div className="relative flex-1 min-h-0 mb-6">
+              <div className="h-full overflow-y-auto overflow-x-hidden scrollbar-hide pb-20">
                 {filtered.length === 0 ? (
                   <p className="text-gray-500 text-center py-8">No cards up for listing yet, be the first!</p>
                 ) : (
@@ -119,7 +119,7 @@ export default function TradingScreen() {
 
         <button
           onClick={() => navigate("addCard")} 
-          className="w-full text-base bg-gray-300 hover:bg-gray-400 transition active:scale-[0.98] mt-8 py-3 rounded-xl text-center mx-auto">Add a card
+          className="w-full text-base bg-gray-300 hover:bg-gray-400 transition active:scale-[0.98] py-3 rounded-xl text-center mx-auto mb-6">Add a card
         </button>
 
       </div>
