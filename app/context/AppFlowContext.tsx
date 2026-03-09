@@ -45,6 +45,7 @@ type AppFlowContextType = {
   navigate: (screen: Screen) => void;
   goBack: () => void;
   resetTo: (screen: Screen) => void;
+  resetAll: () => void;
   experience: ExperienceType;
   setExperience: (e: ExperienceType) => void;
   menuStep: number;
@@ -119,6 +120,38 @@ export function AppFlowProvider({ children }: { children: React.ReactNode }) {
     setHistory([target]);
   }
 
+  function resetAll() {
+    // reset all states
+    setHistory(["welcome"]);
+    setExperience(null);
+    setMenuStep(0);
+    setListings([]);
+    setSection("trading");
+    setSelfPlayerId(null);
+    setPlayers([
+      {
+        id: 1,
+        name: "John Doe",
+        username: "snorlaxlover.123",
+        picture:
+          "https://i.pinimg.com/736x/f4/31/76/f43176cf062903a487363184ef571a2b.jpg",
+      },
+      {
+        id: 2,
+        name: "Jill Doe",
+        username: "dittolover.234",
+        picture: "https://pbs.twimg.com/media/EjXk-3kWkAAsltL.jpg",
+      },
+      {
+        id: 3,
+        name: "Jane Doe",
+        username: "pikachulover.567",
+        picture:
+          "https://i.pinimg.com/474x/27/4b/86/274b8668ce3435062eed1fe88bec6817.jpg",
+      },
+    ]);
+  }
+
   function unlock(step: number) {
     setMenuStep((prev) => Math.max(prev, step));
   }
@@ -178,6 +211,7 @@ export function AppFlowProvider({ children }: { children: React.ReactNode }) {
         navigate,
         goBack,
         resetTo,
+        resetAll,
         experience,
         setExperience,
         menuStep,
