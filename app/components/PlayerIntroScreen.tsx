@@ -72,23 +72,22 @@ export default function PlayerIntroScreen() {
 
         {/* Scrollable list */}
         <div className="flex-1 overflow-y-auto space-y-6 pr-2">
-        {players.map((player) => {
-          const isSelf = selfPlayerId === player.id;
-
-          return (
-            <PlayerCard
-              key={player.id}
-              player={player}
-              isSelf={isSelf}
-              onDelete={() => {
-                if (!isSelf) return;
-                const ok = window.confirm("Delete your profile from the player list?");
-                if (!ok) return;
-                deleteSelfPlayer();
-              }}
-            />
-          );
-        })}
+          {players.map((player) => {
+            const isSelf = selfPlayerId === player.id;
+            return (
+              <PlayerCard
+                key={player.id}
+                player={player}
+                isSelf={isSelf}
+                onDelete={() => {
+                  if (!isSelf) return;
+                  const ok = window.confirm("Delete your profile from the player list?");
+                  if (!ok) return;
+                  deleteSelfPlayer();
+                }}
+              />
+            );
+          })}
         </div>
         
         <div className="pt-6 pb-6">
