@@ -72,7 +72,7 @@ export default function PlayerIntroScreen() {
     <div className="h-screen bg-bg-main text-black flex flex-col screen-transition overflow-hidden">
       <Navbar />
       {toast && (
-        <div className="px-8 pt-2">
+        <div className="px-8 pt-2 fixed top-6 left-0 right-0 flex justify-center z-50">
           <div className="rounded-xl bg-black/80 text-white text-sm px-4 py-3 shadow-sm animate-slideDown">
             {toast}
           </div>
