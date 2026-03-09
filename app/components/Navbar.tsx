@@ -1,14 +1,23 @@
 "use client";
 
 import { ChevronLeft } from "lucide-react";
+import { MdOutlineTableRestaurant } from "react-icons/md";
 import { useAppFlow } from "../context/AppFlowContext";
 import { useState } from "react";
 import ConfirmationModal from "./ConfirmationModal";
+import TableNumberModal from "./TableNumberModal";
 
-export default function Navbar() {
-  const { goBack, screen, resetAll } = useAppFlow();
+type NavbarProps = {
+  showTableSelector?: boolean;
+};
+
+export default function Navbar({ showTableSelector = false }: NavbarProps) {
+  const { goBack, screen, resetAll, getSelfPlayer, saveSelfPlayer, showToast } = useAppFlow();
   const [showModal, setShowModal] = useState(false);
+  const [showTableModal, setShowTableModal] = useState(false);
   const isRoot = screen === "welcome";
+  const selfPlayer = getSelfPlayer();
+  const hasProfile = selfPlayer != null;
 
   const handleBackClick = () => {
     if (screen === "mainMenu") {
@@ -23,17 +32,52 @@ export default function Navbar() {
     resetAll();
   };
 
+  const handleTableNumberSave = (tableNumber: number | null) => {
+    if (selfPlayer) {
+      saveSelfPlayer({
+        ...selfPlayer,
+        tableNumber: tableNumber ?? undefined,
+        tableNumberUpdatedAt: tableNumber != null ? Date.now() : undefined,
+      });
+    }
+  };
+
+  const handleTableNumberClick = () => {
+    if (hasProfile) {
+      setShowTableModal(true);
+    } else {
+      showToast("Please introduce yourself first to unlock this feature.");
+    }
+  };
+
   return (
     <>
       <div className="sticky top-0 z-10 bg-bg-main/80 backdrop-blur">
-        <div className="h-14 flex items-center px-6">
-          {!isRoot && (
+        <div className="h-14 flex items-center justify-between px-6">
+          <div>
+            {!isRoot && (
+              <button
+                onClick={handleBackClick}
+                className="p-2 -ml-2 rounded-full transition active:scale-[0.98] hover:bg-black/5"
+                aria-label="Back"
+              >
+                <ChevronLeft size={26} strokeWidth={2} />
+              </button>
+            )}
+          </div>
+          
+          {showTableSelector && (
             <button
-              onClick={handleBackClick}
-              className="p-2 -ml-2 rounded-full transition active:scale-[0.98] hover:bg-black/5"
-              aria-label="Back"
+              onClick={handleTableNumberClick}
+              className={[
+                "p-2 rounded-lg transition active:scale-[0.98]",
+                hasProfile
+                  ? "hover:bg-black/5 text-black"
+                  : "text-black/30",
+              ].join(" ")}
+              aria-label="Edit table number"
             >
-              <ChevronLeft size={26} strokeWidth={2} />
+              <MdOutlineTableRestaurant size={24} />
             </button>
           )}
         </div>
@@ -47,6 +91,14 @@ export default function Navbar() {
         confirmText="Reset & Exit"
         onConfirm={handleConfirm}
         onCancel={() => setShowModal(false)}
+      />
+
+      <TableNumberModal
+        key={showTableModal ? 'open' : 'closed'}
+        isOpen={showTableModal}
+        currentTableNumber={selfPlayer?.tableNumber}
+        onSave={handleTableNumberSave}
+        onClose={() => setShowTableModal(false)}
       />
     </>
   );

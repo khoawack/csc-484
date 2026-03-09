@@ -5,7 +5,7 @@ import Navbar from "./Navbar";
 import { useAppFlow } from "../context/AppFlowContext";
 
 export default function MainMenuScreen() {
-  const { experience, menuStep, unlock, navigate } = useAppFlow();
+  const { experience, menuStep, unlock, navigate, toast } = useAppFlow();
 
   const isReturning = experience === "returning";
 
@@ -18,7 +18,15 @@ export default function MainMenuScreen() {
 
   return (
     <div className="min-h-screen bg-bg-main text-black flex flex-col screen-transition">
-      <Navbar />
+      <Navbar showTableSelector={true} />
+      
+      {toast && (
+        <div className="px-8 pt-2">
+          <div className="rounded-xl bg-black/80 text-white text-sm px-4 py-3 shadow-sm animate-slideDown">
+            {toast}
+          </div>
+        </div>
+      )}
 
       <div className="px-8 pt-4">
         {/* header */}
