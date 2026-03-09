@@ -5,9 +5,10 @@ import Navbar from "./Navbar";
 import { useAppFlow } from "../context/AppFlowContext";
 
 export default function MainMenuScreen() {
-  const { experience, menuStep, unlock, navigate, toast } = useAppFlow();
+  const { experience, menuStep, unlock, navigate, toast, hasSeenTableTooltip, dismissTableTooltip } = useAppFlow();
 
   const isReturning = experience === "returning";
+  const shouldShowTableTooltip = experience === "new" && menuStep >= 2 && !hasSeenTableTooltip;
 
   const cardBase =
     "w-full rounded-2xl p-5 flex items-center gap-4 transition-all duration-200 active:scale-[0.98]";
@@ -21,9 +22,27 @@ export default function MainMenuScreen() {
       <Navbar showTableSelector={true} />
       
       {toast && (
-        <div className="px-8 pt-2">
-          <div className="rounded-xl bg-black/80 text-white text-sm px-4 py-3 shadow-sm animate-slideDown">
-            {toast}
+        <div className="fixed top-16 left-0 right-0 px-8 z-50 pointer-events-none">
+          <div className="max-w-sm mx-auto">
+            <div className="rounded-xl bg-black text-white text-sm px-4 py-3 shadow-sm animate-slideDown pointer-events-auto">
+              {toast}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {shouldShowTableTooltip && (
+        <div className="fixed top-16 left-0 right-0 px-8 z-50">
+          <div className="max-w-sm mx-auto">
+            <div 
+              onClick={dismissTableTooltip}
+              className="bg-blue-600 text-white text-sm px-4 py-3 rounded-2xl shadow-lg relative animate-slideDown cursor-pointer"
+            >
+              <div className="absolute -top-2 right-6 w-4 h-4 bg-blue-600 transform rotate-45"></div>
+              <p className="font-medium mb-1">💡 Quick Tip!</p>
+              <p>Use the table icon here to set your table number or edit it in your introductions.</p>
+              <p className="text-xs mt-2 opacity-80">Tap to dismiss</p>
+            </div>
           </div>
         </div>
       )}

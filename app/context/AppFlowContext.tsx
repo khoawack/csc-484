@@ -65,6 +65,8 @@ type AppFlowContextType = {
   deleteSelfPlayer: () => void;
   toast: string | null;
   showToast: (msg: string) => void;
+  hasSeenTableTooltip: boolean;
+  dismissTableTooltip: () => void;
 };
 
 const AppFlowContext = createContext<AppFlowContextType | null>(null);
@@ -82,6 +84,8 @@ export function AppFlowProvider({ children }: { children: React.ReactNode }) {
   const [selfPlayerId, setSelfPlayerId] = useState<number | null>(null);
 
   const [toast, setToast] = useState<string | null>(null);
+  
+  const [hasSeenTableTooltip, setHasSeenTableTooltip] = useState(false);
 
   // Global Player List
   const [players, setPlayers] = useState<Player[]>([
@@ -139,6 +143,7 @@ export function AppFlowProvider({ children }: { children: React.ReactNode }) {
     setListings([]);
     setSection("trading");
     setSelfPlayerId(null);
+    setHasSeenTableTooltip(false);
     setPlayers([
       {
         id: 1,
@@ -224,6 +229,10 @@ export function AppFlowProvider({ children }: { children: React.ReactNode }) {
     window.setTimeout(() => setToast(null), 2000);
   }
 
+  function dismissTableTooltip() {
+    setHasSeenTableTooltip(true);
+  }
+
   return (
     <AppFlowContext.Provider
       value={{
@@ -249,6 +258,8 @@ export function AppFlowProvider({ children }: { children: React.ReactNode }) {
         deleteSelfPlayer,
         toast,
         showToast,
+        hasSeenTableTooltip,
+        dismissTableTooltip,
       }}
     >
       {children}

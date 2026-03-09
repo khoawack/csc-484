@@ -12,12 +12,15 @@ type NavbarProps = {
 };
 
 export default function Navbar({ showTableSelector = false }: NavbarProps) {
-  const { goBack, screen, resetAll, getSelfPlayer, saveSelfPlayer, showToast } = useAppFlow();
+  const { goBack, screen, resetAll, getSelfPlayer, saveSelfPlayer, showToast, experience, menuStep } = useAppFlow();
   const [showModal, setShowModal] = useState(false);
   const [showTableModal, setShowTableModal] = useState(false);
   const isRoot = screen === "welcome";
   const selfPlayer = getSelfPlayer();
   const hasProfile = selfPlayer != null;
+  
+  // for new users, show table button at the same time as the tooltip (menuStep >= 2)
+  const shouldShowTableButton = showTableSelector && (experience === "returning" || menuStep >= 2);
 
   const handleBackClick = () => {
     if (screen === "mainMenu") {
@@ -66,7 +69,7 @@ export default function Navbar({ showTableSelector = false }: NavbarProps) {
             )}
           </div>
           
-          {showTableSelector && (
+          {shouldShowTableButton && (
             <button
               onClick={handleTableNumberClick}
               className={[
