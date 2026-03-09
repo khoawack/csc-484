@@ -60,6 +60,7 @@ type AppFlowContextType = {
   selfPlayerId: number | null;
   getSelfPlayer: () => Player | null;
   saveSelfPlayer: (player: Omit<Player, "id">) => void;
+  deleteSelfPlayer: () => void;
 };
 
 const AppFlowContext = createContext<AppFlowContextType | null>(null);
@@ -157,6 +158,13 @@ export function AppFlowProvider({ children }: { children: React.ReactNode }) {
     });
   }
 
+  function deleteSelfPlayer() {
+    if (selfPlayerId == null) return;
+  
+    setPlayers((prev) => prev.filter((p) => p.id !== selfPlayerId));
+    setSelfPlayerId(null);
+  }
+
   return (
     <AppFlowContext.Provider
       value={{
@@ -178,6 +186,7 @@ export function AppFlowProvider({ children }: { children: React.ReactNode }) {
         selfPlayerId,
         getSelfPlayer,
         saveSelfPlayer,
+        deleteSelfPlayer,
       }}
     >
       {children}

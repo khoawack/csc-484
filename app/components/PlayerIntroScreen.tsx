@@ -2,10 +2,19 @@
 
 import Navbar from "./Navbar";
 import { useAppFlow, type Player } from "../context/AppFlowContext";
+import { Trash2 } from "lucide-react";
 
-function PlayerCard({ player }: { player: Player }) {
+function PlayerCard({ 
+  player,
+  isSelf,
+  onDelete,
+}: { 
+  player: Player;
+  isSelf: boolean;
+  onDelete: () => void;
+}) {
   return (
-    <div className="flex gap-4">
+    <div className="flex gap-4 items-start">
       <div className="w-[92px] shrink-0">
         <div className="aspect-square w-[92px] overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-black/5">
           <img
@@ -17,25 +26,38 @@ function PlayerCard({ player }: { player: Player }) {
         </div>
       </div>
 
-      <div className="pt-1">
+      <div className="flex-1 pt-1">
         <h3 className="text-[15px] font-semibold leading-snug text-black">
           {player.name}
         </h3>
         <p className="mt-1 text-sm leading-snug text-black/70">
           {player.username}
         </p>
+
         {player.funFact && (
           <p className="mt-1 text-sm italic leading-snug text-black/60">
             {player.funFact}
           </p>
         )}
       </div>
+
+      {isSelf && (
+        <button
+          type="button"
+          onClick={onDelete}
+          className="p-2 rounded-lg hover:bg-black/5 active:scale-[0.98] transition"
+          aria-label="Delete your profile"
+          title="Delete your profile"
+        >
+          <Trash2 size={18} className="text-black/50" />
+        </button>
+      )}
     </div>
   );
 }
 
 export default function PlayerIntroScreen() {
-  const { navigate, players, selfPlayerId } = useAppFlow();
+  const { navigate, players, selfPlayerId, deleteSelfPlayer } = useAppFlow();
 
   return (
     <div className="min-h-screen bg-bg-main text-black flex flex-col screen-transition">
@@ -50,9 +72,23 @@ export default function PlayerIntroScreen() {
 
         {/* Scrollable list */}
         <div className="flex-1 overflow-y-auto space-y-6 pr-2">
-          {players.map((player) => (
-            <PlayerCard key={player.id} player={player} />
-          ))}
+        {players.map((player) => {
+          const isSelf = selfPlayerId === player.id;
+
+          return (
+            <PlayerCard
+              key={player.id}
+              player={player}
+              isSelf={isSelf}
+              onDelete={() => {
+                if (!isSelf) return;
+                const ok = window.confirm("Delete your profile from the player list?");
+                if (!ok) return;
+                deleteSelfPlayer();
+              }}
+            />
+          );
+        })}
         </div>
         
         <div className="pt-6 pb-6">
