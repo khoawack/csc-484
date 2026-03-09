@@ -155,7 +155,6 @@ export function AppFlowProvider({ children }: { children: React.ReactNode }) {
         name: "Jill Doe",
         username: "dittolover.234",
         picture: "https://pbs.twimg.com/media/EjXk-3kWkAAsltL.jpg",
-        funFact: "My favorite card is Ditto because it can be anything!",
         tableNumber: 12,
         tableNumberUpdatedAt: Date.now() - 1000 * 60 * 60 * 2, // 2 hours ago
         funFact: "i love ditto :D",
@@ -166,7 +165,6 @@ export function AppFlowProvider({ children }: { children: React.ReactNode }) {
         username: "pikachulover.567",
         picture:
           "https://i.pinimg.com/474x/27/4b/86/274b8668ce3435062eed1fe88bec6817.jpg",
-        funFact: "I once pulled a rare Pikachu card on my first try!",
         tableNumber: 3,
         tableNumberUpdatedAt: Date.now() - 1000 * 60 * 5, // 5 minutes ago
         funFact: "(,,>ヮ<,,)!",
