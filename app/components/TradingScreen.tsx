@@ -4,44 +4,79 @@ import Navbar from "./Navbar";
 import Image from "next/image";
 import { useAppFlow } from "../context/AppFlowContext";
 import type { Listing } from "../context/AppFlowContext";
+import { useState } from "react";
 
 function CardListing({ listing }: { listing: Listing }) {
   const { removeListing } = useAppFlow();
+  const [showModal, setShowModal] = useState(false);
+
+  const handleDelete = () => {
+    removeListing(listing.id);
+    setShowModal(false);
+  };
 
   return(
-    <div className="bg-white rounded-lg border border-gray-200 p-4 mb-4 relative hover:shadow-md transition-shadow cursor-pointer">
-      {/* delete button */}
-      <button 
-        onClick={(e) => {
-          e.stopPropagation();
-          removeListing(listing.id);
-        }}
-        className="absolute top-3 right-3 text-gray-400 hover:text-red-600 transition text-xl font-light z-10"
-      >
-        ×
-      </button>
+    <>
+      <div className="bg-white rounded-lg border border-gray-200 p-4 mb-4 relative hover:shadow-md transition-shadow cursor-pointer">
+        {/* delete button */}
+        <button 
+          onClick={(e) => {
+            e.stopPropagation();
+            setShowModal(true);
+          }}
+          className="absolute top-3 right-3 text-gray-400 hover:text-red-600 transition text-xl font-light z-10"
+        >
+          ×
+        </button>
 
-      <div className="flex gap-4">
-        {/* card image placeholder */}
-        <div className="w-24 h-24 bg-gray-100 rounded shrink-0 flex items-center justify-center overflow-hidden">
-          <Image
-            src={listing.image}
-            alt="Card placeholder"
-            width={96}
-            height={96}
-            className="w-full h-full object-cover"
-            unoptimized={listing.image.startsWith('data:')}
-          />
-        </div>
+        <div className="flex gap-4">
+          {/* card image placeholder */}
+          <div className="w-24 h-24 bg-gray-100 rounded shrink-0 flex items-center justify-center overflow-hidden">
+            <Image
+              src={listing.image}
+              alt="Card placeholder"
+              width={96}
+              height={96}
+              className="w-full h-full object-cover"
+              unoptimized={listing.image.startsWith('data:')}
+            />
+          </div>
 
-        {/* card info */}
-        <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-lg truncate pr-6">{listing.name}</h3>
-          <p className="text-sm text-gray-600 truncate">Set: {listing.set}</p>
-          <p className="text-sm text-gray-500 truncate">{listing.description}</p>
+          {/* card info */}
+          <div className="flex-1 min-w-0">
+            <h3 className="font-semibold text-lg truncate pr-6">{listing.name}</h3>
+            <p className="text-sm text-gray-600 truncate">Set: {listing.set}</p>
+            <p className="text-sm text-gray-500 truncate">{listing.description}</p>
+          </div>
         </div>
       </div>
-    </div>
+
+      {/* Confirmation Modal */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-8">
+          <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl">
+            <h3 className="text-xl font-semibold mb-3">Remove Card?</h3>
+            <p className="text-gray-600 mb-6">
+              Are you sure you want to remove <span className="font-semibold">{listing.name}</span> from your list?
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowModal(false)}
+                className="flex-1 py-3 px-4 bg-gray-200 hover:bg-gray-300 rounded-xl font-medium transition active:scale-[0.98]"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDelete}
+                className="flex-1 py-3 px-4 bg-red-500 hover:bg-red-600 text-white rounded-xl font-medium transition active:scale-[0.98]"
+              >
+                Remove
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   )
 }
 
