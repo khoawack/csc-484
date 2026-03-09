@@ -5,20 +5,23 @@ import { useAppFlow, type Player } from "../context/AppFlowContext";
 import { Trash2 } from "lucide-react";
 import { useState } from "react";
 import ConfirmationModal from "./ConfirmationModal";
+import PlayerDetailModal from "./PlayerDetailModal";
 
 function PlayerCard({ 
   player,
   isSelf,
   onDeleteClick,
+  onClick,
 }: { 
   player: Player;
   isSelf: boolean;
   onDeleteClick: () => void;
+  onClick: () => void;
 }) {
   return (
-    <div className="flex gap-4 items-start">
-      <div className="w-[92px] shrink-0">
-        <div className="aspect-square w-[92px] overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-black/5">
+    <div className="bg-white rounded-lg border border-gray-200 p-3 flex gap-3 items-start cursor-pointer hover:shadow-md transition-shadow active:scale-[0.98]" onClick={onClick}>
+      <div className="w-16 shrink-0">
+        <div className="aspect-square w-16 overflow-hidden rounded-lg bg-white shadow-sm ring-1 ring-black/5">
           <img
             src={player.picture || "https://via.placeholder.com/300x300.png?text=No+Photo"}
             alt={`Profile picture of ${player.name}`}
@@ -35,18 +38,15 @@ function PlayerCard({
         <p className="mt-1 text-sm leading-snug text-black/70">
           {player.username}
         </p>
-
-        {player.funFact && (
-          <p className="mt-1 text-sm italic leading-snug text-black/60">
-            {player.funFact}
-          </p>
-        )}
       </div>
 
       {isSelf && (
         <button
           type="button"
-          onClick={onDeleteClick}
+          onClick={(e) => {
+            e.stopPropagation();
+            onDeleteClick();
+          }}
           className="p-2 rounded-lg hover:bg-black/5 active:scale-[0.98] transition"
           aria-label="Delete your profile"
           title="Delete your profile"
@@ -61,6 +61,7 @@ function PlayerCard({
 export default function PlayerIntroScreen() {
   const { navigate, players, selfPlayerId, deleteSelfPlayer, toast } = useAppFlow();
   const [showModal, setShowModal] = useState(false);
+  const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
 
   const handleDelete = () => {
     deleteSelfPlayer();
@@ -87,7 +88,7 @@ export default function PlayerIntroScreen() {
 
         {/* list with fade gradient */}
         <div className="relative flex-1 min-h-0 mb-6">
-          <div className="h-full overflow-y-auto overflow-x-hidden scrollbar-hide space-y-6 pr-2 pb-20">
+          <div className="h-full overflow-y-auto overflow-x-hidden scrollbar-hide space-y-4 pr-2 pb-20">
             {players.map((player) => {
               const isSelf = selfPlayerId === player.id;
               return (
@@ -96,6 +97,7 @@ export default function PlayerIntroScreen() {
                   player={player}
                   isSelf={isSelf}
                   onDeleteClick={() => setShowModal(true)}
+                  onClick={() => setSelectedPlayer(player)}
                 />
               );
             })}
@@ -121,6 +123,12 @@ export default function PlayerIntroScreen() {
         confirmText="Delete"
         onConfirm={handleDelete}
         onCancel={() => setShowModal(false)}
+      />
+
+      <PlayerDetailModal
+        isOpen={selectedPlayer !== null}
+        player={selectedPlayer}
+        onClose={() => setSelectedPlayer(null)}
       />
     </div>
   );

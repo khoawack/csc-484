@@ -14,6 +14,7 @@ export default function IntroduceYourselfScreen() {
   const [name, setName] = useState("");
   const [tag, setTag] = useState("");
   const [funFact, setFunFact] = useState("");
+  const [tableNumber, setTableNumber] = useState("");
 
   useEffect(() => {
     const me = getSelfPlayer();
@@ -25,6 +26,7 @@ export default function IntroduceYourselfScreen() {
     const isPlaceholder = picture.includes("placeholder") || picture.includes("text=Player") || picture.includes("image-missing.svg");
     setPhotoUrl(isPlaceholder ? "" : picture);
     setFunFact(me.funFact ?? "");
+    setTableNumber(me.tableNumber != null ? String(me.tableNumber) : "");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -47,11 +49,16 @@ export default function IntroduceYourselfScreen() {
   function onSave() {
     if (!canSave) return;
 
+    const tableNum = tableNumber.trim();
+    const parsedTableNumber = tableNum ? parseInt(tableNum, 10) : undefined;
+
     saveSelfPlayer({
       name: name.trim(),
       username: tag.trim(),
       picture: photoUrl || "https://www.svgrepo.com/show/451667/image-missing.svg",
       funFact: funFact.trim() ? funFact.trim() : undefined,
+      tableNumber: parsedTableNumber,
+      tableNumberUpdatedAt: parsedTableNumber != null ? Date.now() : undefined,
     });
 
     goBack();
@@ -126,6 +133,14 @@ export default function IntroduceYourselfScreen() {
             value={funFact}
             onChange={(e) => setFunFact(e.target.value)}
             placeholder="Fun fact about you [optional]"
+            className="w-full rounded-xl border border-black/15 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-black/10"
+          />
+
+          <input
+            value={tableNumber}
+            onChange={(e) => setTableNumber(e.target.value)}
+            placeholder="Table number [optional]"
+            type="number"
             className="w-full rounded-xl border border-black/15 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-black/10"
           />
         </div>

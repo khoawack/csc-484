@@ -38,6 +38,8 @@ export type Player = {
   username: string;
   picture: string;
   funFact?: string;
+  tableNumber?: number;
+  tableNumberUpdatedAt?: number;
 };
 
 type AppFlowContextType = {
@@ -89,12 +91,17 @@ export function AppFlowProvider({ children }: { children: React.ReactNode }) {
       username: "snorlaxlover.123",
       picture:
         "https://i.pinimg.com/736x/f4/31/76/f43176cf062903a487363184ef571a2b.jpg",
+      funFact: "I've been collecting TCG cards since 2010!",
+      tableNumber: 5,
+      tableNumberUpdatedAt: Date.now() - 1000 * 60 * 15, // 15 minutes ago
     },
     {
       id: 2,
       name: "Jill Doe",
       username: "dittolover.234",
       picture: "https://pbs.twimg.com/media/EjXk-3kWkAAsltL.jpg",
+      tableNumber: 12,
+      tableNumberUpdatedAt: Date.now() - 1000 * 60 * 60 * 2, // 2 hours ago
       funFact: "i love ditto :D",
     },
     {
@@ -103,6 +110,8 @@ export function AppFlowProvider({ children }: { children: React.ReactNode }) {
       username: "pikachulover.567",
       picture:
         "https://i.pinimg.com/474x/27/4b/86/274b8668ce3435062eed1fe88bec6817.jpg",
+      tableNumber: 3,
+      tableNumberUpdatedAt: Date.now() - 1000 * 60 * 5, // 5 minutes ago
       funFact: "(,,>ヮ<,,)!",
     },
   ]);
@@ -137,12 +146,18 @@ export function AppFlowProvider({ children }: { children: React.ReactNode }) {
         username: "snorlaxlover.123",
         picture:
           "https://i.pinimg.com/736x/f4/31/76/f43176cf062903a487363184ef571a2b.jpg",
+        funFact: "I've been collecting TCG cards since 2010!",
+        tableNumber: 5,
+        tableNumberUpdatedAt: Date.now() - 1000 * 60 * 15, // 15 minutes ago
       },
       {
         id: 2,
         name: "Jill Doe",
         username: "dittolover.234",
         picture: "https://pbs.twimg.com/media/EjXk-3kWkAAsltL.jpg",
+        funFact: "My favorite card is Ditto because it can be anything!",
+        tableNumber: 12,
+        tableNumberUpdatedAt: Date.now() - 1000 * 60 * 60 * 2, // 2 hours ago
         funFact: "i love ditto :D",
       },
       {
@@ -151,6 +166,9 @@ export function AppFlowProvider({ children }: { children: React.ReactNode }) {
         username: "pikachulover.567",
         picture:
           "https://i.pinimg.com/474x/27/4b/86/274b8668ce3435062eed1fe88bec6817.jpg",
+        funFact: "I once pulled a rare Pikachu card on my first try!",
+        tableNumber: 3,
+        tableNumberUpdatedAt: Date.now() - 1000 * 60 * 5, // 5 minutes ago
         funFact: "(,,>ヮ<,,)!",
       },
     ]);
