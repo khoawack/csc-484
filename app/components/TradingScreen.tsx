@@ -5,52 +5,82 @@ import Image from "next/image";
 import { useAppFlow } from "../context/AppFlowContext";
 import type { Listing } from "../context/AppFlowContext";
 import { useState } from "react";
+import { X } from "lucide-react";
 import ConfirmationModal from "./ConfirmationModal";
+import ListingDetailsModal from "./ListingDetailsModal";
+import FullscreenImageModal from "./FullscreenImageModal";
 
-function CardListing({ listing }: { listing: Listing }) {
+function CardListing({
+  listing,
+  onOpen,
+  onDeleted,
+  onImageOpen,
+}: {
+  listing: Listing;
+  onOpen: (listing: Listing) => void;
+  onDeleted: (id: number) => void;
+  onImageOpen: (src: string) => void;
+}) {
   const { removeListing } = useAppFlow();
   const [showModal, setShowModal] = useState(false);
 
   const handleDelete = () => {
     removeListing(listing.id);
+    onDeleted(listing.id);
     setShowModal(false);
   };
 
-  return(
+  return (
     <>
-      <div className="bg-white rounded-lg border border-gray-200 p-4 mb-4 relative hover:shadow-md transition-shadow cursor-pointer">
+      <button
+        type="button"
+        onClick={() => onOpen(listing)}
+        className="w-full text-left bg-white rounded-xl border border-gray-200 p-4 mb-4 relative hover:shadow-md transition-shadow active:scale-[0.99]"
+      >
         {/* delete button */}
-        <button 
+        <button
+          type="button"
           onClick={(e) => {
             e.stopPropagation();
             setShowModal(true);
           }}
-          className="absolute top-3 right-3 text-gray-400 hover:text-red-600 transition text-xl font-light z-10"
+          className="absolute top-3 right-3 p-2 rounded-full bg-black/5 hover:bg-black/10 active:scale-95 transition z-10"
+          aria-label="Remove listing"
         >
-          ×
+          <X size={18} className="text-black transition" />
         </button>
 
         <div className="flex gap-4">
-          {/* card image placeholder */}
-          <div className="w-24 h-24 bg-gray-100 rounded shrink-0 flex items-center justify-center overflow-hidden">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation(); // prevents opening the ListingDetailsModal
+              onImageOpen(listing.image);
+            }}
+            className="w-24 h-24 bg-gray-100 rounded-xl shrink-0 overflow-hidden ring-1 ring-black/5 p-0"
+            aria-label={`View full image for ${listing.name}`}
+          >
             <Image
               src={listing.image}
-              alt="Card placeholder"
+              alt={listing.name}
               width={96}
               height={96}
               className="w-full h-full object-cover"
-              unoptimized={listing.image.startsWith('data:')}
+              unoptimized={listing.image.startsWith("data:")}
             />
-          </div>
+          </button>
 
-          {/* card info */}
           <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-lg truncate pr-6">{listing.name}</h3>
-            <p className="text-sm text-gray-600 truncate">Set: {listing.set}</p>
-            <p className="text-sm text-gray-500 truncate">{listing.description}</p>
+            <h3 className="font-semibold text-base text-black truncate pr-6">
+              {listing.name}
+            </h3>
+            <p className="text-sm text-black/70 truncate">Set: {listing.set}</p>
+            <p className="text-sm text-black/60 truncate">
+              {listing.description}
+            </p>
           </div>
         </div>
-      </div>
+      </button>
 
       <ConfirmationModal
         isOpen={showModal}
@@ -61,19 +91,21 @@ function CardListing({ listing }: { listing: Listing }) {
         onCancel={() => setShowModal(false)}
       />
     </>
-  )
+  );
 }
 
 export default function TradingScreen() {
   const { navigate, listings, section, setSection } = useAppFlow();
 
-  const sectionBase = "underline underline-offset-8"
+  const sectionBase = "underline-offset-8";
 
-  const selectedSection = "text-black transition-all duration-150";
-
+  const selectedSection = "text-black underline transition-all duration-150";
+  
   const unselectedSection = "text-gray-400 transition-all duration-150";
 
-
+  const [selectedListing, setSelectedListing] = useState<Listing | null>(null);
+  
+  const [imageToView, setImageToView] = useState<string | null>(null);
   
   return (
     <div className="h-screen bg-bg-main text-black flex flex-col screen-transition overflow-hidden">
@@ -116,7 +148,17 @@ export default function TradingScreen() {
                 {filtered.length === 0 ? (
                   <p className="text-gray-500 text-center py-8">No cards up for listing yet, be the first!</p>
                 ) : (
-                  filtered.map(listing => <CardListing key={listing.id} listing={listing} />)
+                  filtered.map((listing) => (
+                    <CardListing
+                      key={listing.id}
+                      listing={listing}
+                      onOpen={setSelectedListing}
+                      onDeleted={(deletedId) => {
+                        setSelectedListing((cur) => (cur?.id === deletedId ? null : cur));
+                      }}
+                      onImageOpen={(src: string) => setImageToView(src)}
+                    />
+                  ))
                 )}
               </div>
               {/* fade gradient overlay - only show if 4+ cards */}
@@ -131,6 +173,20 @@ export default function TradingScreen() {
           onClick={() => navigate("addCard")} 
           className="w-full text-base bg-gray-300 hover:bg-gray-400 transition active:scale-[0.98] py-3 rounded-xl text-center mx-auto mb-6">Add a card
         </button>
+
+        <ListingDetailsModal
+          isOpen={!!selectedListing}
+          listing={selectedListing}
+          onClose={() => setSelectedListing(null)}
+          onImageOpen={(src: string) => setImageToView(src)}
+        />
+
+        <FullscreenImageModal
+          isOpen={!!imageToView}
+          src={imageToView}
+          alt="Card image"
+          onClose={() => setImageToView(null)}
+        />
 
       </div>
     </div>
