@@ -40,7 +40,7 @@ export default function MainMenuScreen() {
             >
               <div className="absolute -top-2 right-6 w-4 h-4 bg-blue-600 transform rotate-45"></div>
               <p className="font-medium mb-1">💡 Quick Tip!</p>
-              <p>Use the table icon here to set your table number or edit it in your introductions.</p>
+              <p>Use the table icon here to set your table number or edit it in your introduction page.</p>
               <p className="text-xs mt-2 opacity-80">Tap to dismiss</p>
             </div>
           </div>
